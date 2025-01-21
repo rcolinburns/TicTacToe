@@ -13,43 +13,61 @@ function Game(props) {
 
     function checkWinner(board, rowIdx, colIdx) {
         const currentSymbol = board[rowIdx][colIdx];
-        if (
-            board[rowIdx][0] === currentSymbol &&
-            board[rowIdx][1] === currentSymbol &&
-            board[rowIdx][2] === currentSymbol
-        )
-            console.log(`${board[rowIdx][colIdx]} is winner`);
-        
-        if (
-            board[0][colIdx] === currentSymbol &&
-            board[1][colIdx] === currentSymbol &&
-            board[2][colIdx] === currentSymbol
-        )
-            console.log(`${board[rowIdx][colIdx]} is winner`);
 
-        if (
-            (rowIdx === colIdx &&
-                board[0][0] === currentSymbol &&
-                board[1][1] === currentSymbol &&
-                board[2][2] === currentSymbol) ||
-            (rowIdx + colIdx === 2 &&
-                board[0][2] === currentSymbol &&
-                board[1][1] === currentSymbol &&
-                board[2][0] === currentSymbol)
-            )
-            console.log(`${board[rowIdx][colIdx]} is winner`);
+        for (let i = 0; i < 3; i++) {
+            if (
+                board[i][0] === currentSymbol &&
+                board[i][1] === currentSymbol &&
+                board[i][2] === currentSymbol
+            ) {
+                props.setWinner(currentSymbol);
+                return;
+            }
+        }
+        for (let i = 0; i < 3; i ++) {
+            if (
+                board[0][i] === currentSymbol &&
+                board[1][i] === currentSymbol &&
+                board[2][i] === currentSymbol
+            ) {
+                props.setWinner(currentSymbol);
+                return;
+            }
+        }
+            if (
+                (rowIdx === colIdx &&
+                    board[0][0] === currentSymbol &&
+                    board[1][1] === currentSymbol &&
+                    board[2][2] === currentSymbol) ||
+                (rowIdx + colIdx === 2 &&
+                    board[0][2] === currentSymbol &&
+                    board[1][1] === currentSymbol &&
+                    board[2][0] === currentSymbol)
+                ) {
+                    props.setWinner(currentSymbol);
+                    return;
+                }
+        let draw = true;
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                if (board[i][j] === "+") {
+                    draw = false;
+                    break;
+                }
+            }
+        }
+
+        if (draw) props.setWinner("Draw");
     }
     function changeCellValue(rowIdx, colIdx) {
-        const newBoard = [...board];
-        newBoard[rowIdx] = [...newBoard[rowIdx]];
+        if (props.winner || board[rowIdx][colIdx] !== "+") return;
 
-        if (newBoard[rowIdx][colIdx] === "+") newBoard[rowIdx][colIdx] = "X";
-        else if (newBoard[rowIdx][colIdx] === "X")
-            newBoard[rowIdx][colIdx] = "0";
-        else newBoard[rowIdx][colIdx] = "X";
+        const newBoard = board.map((row) => [...row]);
+        newBoard[rowIdx][colIdx] = props.xIsNext ? "x" : "O";
 
-        checkWinner(newBoard, rowIdx, colIdx);
         setBoard(newBoard);
+        props.setXIsNext(!props.xIsNext);
+        checkWinner(newBoard, rowIdx, colIdx);
     }
 
     return (
