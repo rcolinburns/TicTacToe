@@ -1,0 +1,16 @@
+.cellWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    border: 1px solid black;
+}
+
+.redBg {
+    background-color: #ffe3e3;
+}
+
+.blueBg {
+    background-color: #d0ebff;
+}

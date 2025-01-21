@@ -1,0 +1,10 @@
+.appWrapper {
+  width: 70vh;
+  height: 70vh;
+  margin: 3rem auto;
+  text-align: center;
+}
+
+.reload-text {
+  font-size: 0.75rem;
+}
